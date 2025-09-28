@@ -16,6 +16,7 @@ type SummaryResearchTool struct {
 	task       string
 	wikiClient *wikipedia.Client
 	model      llm.LLM
+	seenPages  map[string]struct{}
 }
 
 var _ tool.Tool = (*SummaryResearchTool)(nil)
@@ -25,6 +26,7 @@ func New(task string, model llm.LLM) *SummaryResearchTool {
 		task:       task,
 		wikiClient: wikipedia.New(),
 		model:      model,
+		seenPages:  make(map[string]struct{}),
 	}
 }
 
@@ -60,7 +62,16 @@ func (s *SummaryResearchTool) Run(ctx context.Context, kwargs map[string]any) (s
 	if err != nil {
 		return "", fmt.Errorf("failed to run summary_research_tool: %w", err)
 	}
-	relevantPageResults := s.getRelevantPages(ctx, pageResults)
+	filteredPages := make(map[string]*wikipedia.QueryPageResult, 0)
+	for pageTitle, pageResult := range pageResults {
+		if _, ok := s.seenPages[pageTitle]; ok {
+			slog.Info("seen page before", "page", pageTitle)
+			continue
+		}
+		s.seenPages[pageTitle] = struct{}{}
+		filteredPages[pageTitle] = pageResult
+	}
+	relevantPageResults := s.getRelevantPages(ctx, filteredPages)
 	if len(relevantPageResults) == 0 {
 		return "", fmt.Errorf("no pages were relevant using search term \"%s\", try using a more general search_term", searchTerm)
 	}

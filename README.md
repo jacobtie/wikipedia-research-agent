@@ -1,1 +1,1 @@
-# Essay Agent
+# Wikipedia Research Agent
