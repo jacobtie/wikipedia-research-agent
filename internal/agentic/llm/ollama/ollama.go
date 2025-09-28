@@ -9,9 +9,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/jacobtie/wikipedia-research-agent/internal/ageettc/llmc/llmc/llm"
-	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/prooptoptmpt"
-	"github.com/jacobtie/wikipedia-research-agent/internal/coffgg
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/llm"
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/prompt"
+	"github.com/jacobtie/wikipedia-research-agent/internal/config"
 )
 
 type Client struct {
