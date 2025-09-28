@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/config"
+	"github.com/jacobtie/wikipedia-research-agent/internal/config"
 	"github.com/jacobtie/wikipedia-research-agent/internal/platform/llm"
 	"github.com/jacobtie/wikipedia-research-agent/internal/platform/prompt"
 )

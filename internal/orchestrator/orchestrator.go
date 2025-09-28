@@ -3,10 +3,10 @@ package orchestrator
 import (
 	"context"
 
+	"github.com/jacobtie/wikipedia-research-agent/internal/config"
 	"github.com/jacobtie/wikipedia-research-agent/internal/orchestrator/output"
 	"github.com/jacobtie/wikipedia-research-agent/internal/orchestrator/summaryresearch"
 	"github.com/jacobtie/wikipedia-research-agent/internal/platform/agent"
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/config"
 	"github.com/jacobtie/wikipedia-research-agent/internal/platform/llm/ollama"
 	"github.com/jacobtie/wikipedia-research-agent/internal/platform/tool"
 )

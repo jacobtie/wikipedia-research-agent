@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/jacobtie/wikipedia-research-agent/internal/config"
 	"github.com/jacobtie/wikipedia-research-agent/internal/orchestrator"
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/config"
 )
 
 func main() {

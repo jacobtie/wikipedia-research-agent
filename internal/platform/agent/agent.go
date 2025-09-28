@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/config"
+	"github.com/jacobtie/wikipedia-research-agent/internal/config"
 	"github.com/jacobtie/wikipedia-research-agent/internal/platform/llm"
 	"github.com/jacobtie/wikipedia-research-agent/internal/platform/prompt"
 	"github.com/jacobtie/wikipedia-research-agent/internal/platform/tool"
@@ -69,6 +69,7 @@ func (a *Agent) runIteration(ctx context.Context, i int, results chan<- *AgentRe
 		Content:   modelRes.Content,
 		ToolCalls: modelRes.ToolCalls,
 	})
+	var promptHistoryMu sync.Mutex
 	var wg sync.WaitGroup
 	wg.Add(len(modelRes.ToolCalls))
 	for _, tc := range modelRes.ToolCalls {
@@ -78,6 +79,8 @@ func (a *Agent) runIteration(ctx context.Context, i int, results chan<- *AgentRe
 			toolRes, err := a.callTool(ctx, toolCall)
 			if err != nil {
 				results <- &AgentResult{Msg: fmt.Sprintf("Iteration #%d: failed to call tools: %s", i, err.Error())}
+				promptHistoryMu.Lock()
+				defer promptHistoryMu.Unlock()
 				promptHistory.Messages = append(promptHistory.Messages, &prompt.Message{
 					Role:    prompt.USER_MESSAGE_ROLE,
 					Content: fmt.Sprintf("you failed to call the tool %s because of the following reason: %s", toolCall.Name, err.Error()),
@@ -85,6 +88,8 @@ func (a *Agent) runIteration(ctx context.Context, i int, results chan<- *AgentRe
 				return
 			}
 			results <- &AgentResult{Msg: fmt.Sprintf("Iteration #%d: got tool %s result: %s", i, toolCall.Name, toolRes)}
+			promptHistoryMu.Lock()
+			defer promptHistoryMu.Unlock()
 			promptHistory.Messages = append(promptHistory.Messages, &prompt.Message{
 				Role:     prompt.TOOL_MESSAGE_ROLE,
 				Content:  toolRes,

@@ -62,7 +62,7 @@ func (s *SummaryResearchTool) Run(ctx context.Context, kwargs map[string]any) (s
 	}
 	relevantPageResults := s.getRelevantPages(ctx, pageResults)
 	if len(relevantPageResults) == 0 {
-		return "", fmt.Errorf("no pages were relevant, try using a more general search_term")
+		return "", fmt.Errorf("no pages were relevant using search term \"%s\", try using a more general search_term", searchTerm)
 	}
 	results := make(map[string]string)
 	var resultsMu sync.Mutex
