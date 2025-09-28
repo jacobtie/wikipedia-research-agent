@@ -105,7 +105,7 @@ func formatMessages(messages []*prompt.Message) ([]*requestMessage, error) {
 		}
 		requestMessages = append(requestMessages, &requestMessage{
 			Role:      role,
-			Content:   msg.Content,
+			Content:   strings.TrimSpace(msg.Content),
 			ToolCalls: toolCalls,
 			ToolName:  msg.ToolName,
 		})
@@ -135,7 +135,7 @@ func formatTools(tools tool.Registry) ([]*requestTool, error) {
 			}
 			toolProperties[tProp.Name] = &toolFunctionParametersProperty{
 				Type:        dataType,
-				Description: tProp.Description,
+				Description: strings.TrimSpace(tProp.Description),
 			}
 		}
 		requestTools = append(requestTools, &requestTool{

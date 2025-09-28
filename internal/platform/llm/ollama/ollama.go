@@ -27,7 +27,7 @@ func New(cfg *config.Config) *Client {
 	return &Client{
 		baseEndpoint: cfg.OllamaBaseEndpoint,
 		modelID:      cfg.OllamaModelID,
-		httpClient:   &http.Client{Timeout: 3 * time.Minute},
+		httpClient:   &http.Client{Timeout: 10 * time.Minute},
 	}
 }
 
