@@ -3,8 +3,8 @@ package ollama
 import (
 	"fmt"
 
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/llm"
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/tool"
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/llm"
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/tool"
 )
 
 type response struct {

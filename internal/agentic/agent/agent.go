@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/llm"
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/prompt"
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/tool"
 	"github.com/jacobtie/wikipedia-research-agent/internal/config"
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/llm"
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/prompt"
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/tool"
 )
 
 type Agent struct {

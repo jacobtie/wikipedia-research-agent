@@ -7,9 +7,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/jacobtie/wikipedia-research-agent/internal/orchestrator/wikipedia"
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/llm"
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/tool"
+	"github.com/jacobtie/wikipedia-research-agent/internal/agtncicllm
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/toool"
+	"github.com/jacobtie/wikipedia-research-agent/internal/orchcseraaor/wikipedia/wikipedia"
 )
 
 type SummaryResearchTool struct {

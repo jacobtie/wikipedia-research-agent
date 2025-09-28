@@ -7,8 +7,8 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/prompt"
 	"github.com/jacobtie/wikipedia-research-agent/internal/orchestrator/wikipedia"
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/prompt"
 )
 
 func (s *SummaryResearchTool) getRelevantPages(ctx context.Context, pageResults map[string]*wikipedia.QueryPageResult) map[string]*wikipedia.QueryPageResult {

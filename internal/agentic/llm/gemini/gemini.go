@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/llm"
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/prompt"
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/llm"
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/prompt"
 	"google.golang.org/genai"
 )
 

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/prompt"
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/prompt"
 )
 
 func (s *SummaryResearchTool) summarizeText(ctx context.Context, task, title, content string) (string, error) {

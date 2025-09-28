@@ -7,7 +7,7 @@ import (
 	"path"
 	"time"
 
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/tool"
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/tool"
 )
 
 type WriterTool struct{}

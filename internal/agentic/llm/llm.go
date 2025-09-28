@@ -3,8 +3,8 @@ package llm
 import (
 	"context"
 
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/prompt"
-	"github.com/jacobtie/wikipedia-research-agent/internal/platform/tool"
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/prompt"
+	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/tool"
 )
 
 type Response struct {

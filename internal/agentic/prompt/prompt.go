@@ -1,6 +1,6 @@
 package prompt
 
-import "github.com/jacobtie/wikipedia-research-agent/internal/platform/tool"
+import "github.com/jacobtie/wikipedia-research-agent/internal/agentic/tool"
 
 type MessageRole uint8
 
