@@ -8,7 +8,7 @@ import (
 	"github.com/jacobtie/wikipedia-research-agent/internal/platform/prompt"
 )
 
-func (s *SummaryResearchTool) summarizeText(ctx context.Context, task, content string) (string, error) {
+func (s *SummaryResearchTool) summarizeText(ctx context.Context, task, title, content string) (string, error) {
 	messages := []*prompt.Message{
 		{
 			Role: prompt.USER_MESSAGE_ROLE,
@@ -19,6 +19,7 @@ CONTENT: %s
 `, task, content),
 		},
 	}
+	slog.Info("summarizing page", "page", title)
 	for retries := 5; retries > 0; retries-- {
 		resp, err := s.model.Invoke(ctx, &prompt.Prompt{
 			SystemPrompt: `

@@ -3,6 +3,7 @@ package agent
 import (
 	"context"
 	"fmt"
+	"sync"
 
 	"github.com/jacobtie/wikipedia-research-agent/internal/platform/config"
 	"github.com/jacobtie/wikipedia-research-agent/internal/platform/llm"
@@ -68,24 +69,30 @@ func (a *Agent) runIteration(ctx context.Context, i int, results chan<- *AgentRe
 		Content:   modelRes.Content,
 		ToolCalls: modelRes.ToolCalls,
 	})
-	for _, toolCall := range modelRes.ToolCalls {
-		results <- &AgentResult{Msg: fmt.Sprintf("Iteration #%d: calling tool %s and args %#v", i, toolCall.Name, toolCall.KWArgs)}
-		toolRes, err := a.callTool(ctx, toolCall)
-		if err != nil {
-			results <- &AgentResult{Msg: fmt.Sprintf("Iteration #%d: failed to call tools: %s", i, err.Error())}
+	var wg sync.WaitGroup
+	wg.Add(len(modelRes.ToolCalls))
+	for _, tc := range modelRes.ToolCalls {
+		go func(toolCall *tool.ToolCall) {
+			defer wg.Done()
+			results <- &AgentResult{Msg: fmt.Sprintf("Iteration #%d: calling tool %s and args %#v", i, toolCall.Name, toolCall.KWArgs)}
+			toolRes, err := a.callTool(ctx, toolCall)
+			if err != nil {
+				results <- &AgentResult{Msg: fmt.Sprintf("Iteration #%d: failed to call tools: %s", i, err.Error())}
+				promptHistory.Messages = append(promptHistory.Messages, &prompt.Message{
+					Role:    prompt.USER_MESSAGE_ROLE,
+					Content: fmt.Sprintf("you failed to call the tool %s because of the following reason: %s", toolCall.Name, err.Error()),
+				})
+				return
+			}
+			results <- &AgentResult{Msg: fmt.Sprintf("Iteration #%d: got tool %s result: %s", i, toolCall.Name, toolRes)}
 			promptHistory.Messages = append(promptHistory.Messages, &prompt.Message{
-				Role:    prompt.USER_MESSAGE_ROLE,
-				Content: fmt.Sprintf("you failed to call the tool %s because of the following reason: %s", toolCall.Name, err.Error()),
+				Role:     prompt.TOOL_MESSAGE_ROLE,
+				Content:  toolRes,
+				ToolName: toolCall.Name,
 			})
-			continue
-		}
-		results <- &AgentResult{Msg: fmt.Sprintf("Iteration #%d: got tool %s result: %s", i, toolCall.Name, toolRes)}
-		promptHistory.Messages = append(promptHistory.Messages, &prompt.Message{
-			Role:     prompt.TOOL_MESSAGE_ROLE,
-			Content:  toolRes,
-			ToolName: toolCall.Name,
-		})
+		}(tc)
 	}
+	wg.Wait()
 	return false
 }
 

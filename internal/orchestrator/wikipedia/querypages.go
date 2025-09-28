@@ -3,6 +3,7 @@ package wikipedia
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"net/url"
 )
@@ -33,6 +34,7 @@ func (c *Client) QueryPages(ctx context.Context, searchTerm string) (map[string]
 	}
 	result := make(map[string]*QueryPageResult)
 	for _, searchResult := range pages.Query.Search {
+		slog.Info("found page", "page", searchResult.Title)
 		result[searchResult.Title] = &QueryPageResult{
 			PageID:  searchResult.PageID,
 			Snippet: searchResult.Snippet,

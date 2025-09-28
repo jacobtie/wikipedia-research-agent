@@ -24,6 +24,7 @@ func (s *SummaryResearchTool) getRelevantPages(ctx context.Context, pageResults 
 				slog.Error("failed to determine if page is relevant", "error", err.Error())
 				return
 			}
+			slog.Info("determined page relevancy", "page", title, "isRelevant", isRelevant)
 			if !isRelevant {
 				return
 			}

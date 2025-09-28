@@ -71,12 +71,12 @@ func (s *SummaryResearchTool) Run(ctx context.Context, kwargs map[string]any) (s
 	for pageTitle, pageResult := range relevantPageResults {
 		go func(title string, pageID int) {
 			defer wg.Done()
-			pageContent, err := s.wikiClient.ReadContent(ctx, pageID)
+			pageContent, err := s.wikiClient.ReadContent(ctx, pageID, title)
 			if err != nil {
 				slog.Error("failed to read page content", "error", err.Error())
 				return
 			}
-			summary, err := s.summarizeText(ctx, s.task, pageContent)
+			summary, err := s.summarizeText(ctx, s.task, pageTitle, pageContent)
 			if err != nil {
 				slog.Error("failed to summarize page content", "error", err.Error())
 				return
