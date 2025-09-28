@@ -16,7 +16,10 @@ func main() {
 
 func run() error {
 	cfg := config.New()
-	results := orchestrator.New(cfg, "Write a research paper about Vlad the Impaler and how his policies impacted his kingdom").Run(context.Background())
+	results, err := orchestrator.New(cfg, "Write a research paper about Vlad the Impaler and how his policies impacted his kingdom").Run(context.Background())
+	if err != nil {
+		return err
+	}
 	for result := range results {
 		if result.Error != nil {
 			return result.Error

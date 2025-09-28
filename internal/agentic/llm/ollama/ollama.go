@@ -11,7 +11,6 @@ import (
 
 	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/llm"
 	"github.com/jacobtie/wikipedia-research-agent/internal/agentic/prompt"
-	"github.com/jacobtie/wikipedia-research-agent/internal/config"
 )
 
 type Client struct {
@@ -23,10 +22,10 @@ type Client struct {
 // Enforces interface implementation
 var _ llm.LLM = (*Client)(nil)
 
-func New(cfg *config.Config) *Client {
+func New(baseEndpoint, modelID string) *Client {
 	return &Client{
-		baseEndpoint: cfg.OllamaBaseEndpoint,
-		modelID:      cfg.OllamaModelID,
+		baseEndpoint: baseEndpoint,
+		modelID:      modelID,
 		httpClient:   &http.Client{Timeout: 10 * time.Minute},
 	}
 }

@@ -116,7 +116,7 @@ Answer: NO
 			slog.Error("failed to determine whether page was relevant", "error", err.Error())
 			continue
 		}
-		content := strings.TrimSuffix(strings.TrimPrefix(strings.ToLower(resp.Content), "\""), "\"")
+		content := strings.TrimSpace(strings.TrimSuffix(strings.TrimPrefix(strings.ToLower(resp.Content), "\""), "\""))
 		if content != "yes" && content != "no" {
 			messages = append(messages, &prompt.Message{
 				Role:    prompt.ASSISTANT_MESSAGE_ROLE,

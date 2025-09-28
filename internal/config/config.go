@@ -6,17 +6,22 @@ import (
 )
 
 type Config struct {
+	ModelType     string
 	MaxIterations int
 	// Ollama
 	OllamaBaseEndpoint string
 	OllamaModelID      string
+	// Gemini
+	GeminiAPIKey string
 }
 
 func New() *Config {
 	return &Config{
+		ModelType:          getEnvString("MODEL_TYPE", "ollama"),
 		MaxIterations:      getEnvInt("MAX_ITERATIONS", 10),
 		OllamaBaseEndpoint: getEnvString("OLLAMA_BASE_ENDPOINT", "http://localhost:11434"),
 		OllamaModelID:      getEnvString("OLLAMA_MODEL_ID", "llama3.2"),
+		GeminiAPIKey:       getEnvString("GEMINI_API_KEY", ""),
 	}
 }
 

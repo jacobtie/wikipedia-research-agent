@@ -30,6 +30,24 @@ func New(ctx context.Context, apiKey string) (*Client, error) {
 }
 
 func (c *Client) Invoke(ctx context.Context, promptHistory *prompt.Prompt) (*llm.Response, error) {
-	// c.geminiClient.Models.GenerateContent()
-	return nil, nil
+	request, err := c.formatRequestContent(promptHistory)
+	if err != nil {
+		return nil, fmt.Errorf("failed to format gemini request: %w", err)
+	}
+	tools, err := c.formatRequestTools(promptHistory)
+	if err != nil {
+		return nil, fmt.Errorf("failed to format gemini tools: %w", err)
+	}
+	resp, err := c.geminiClient.Models.GenerateContent(ctx, "gemini-2.0-flash", request, &genai.GenerateContentConfig{
+		SystemInstruction: genai.Text(promptHistory.SystemPrompt)[0],
+		Tools:             tools,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to invoke gemini model: %w", err)
+	}
+	formattedResp, err := c.formatResponse(resp)
+	if err != nil {
+		return nil, fmt.Errorf("failed to format response from gemini model: %w", err)
+	}
+	return formattedResp, nil
 }
