@@ -29,7 +29,11 @@ func (c *Client) formatResponse(resp *genai.GenerateContentResponse) (*llm.Respo
 	}
 	r.Content = strings.Join(textParts, "\n")
 	if r.Content == "" && len(r.ToolCalls) == 0 {
-		return nil, fmt.Errorf("model returned no content and no tool calls")
+		return nil, fmt.Errorf(
+			"model unexpectedly returned no content and no tool calls with finish reason '%s' and finish message '%s'",
+			candidate.FinishReason,
+			candidate.FinishMessage,
+		)
 	}
 	return r, nil
 }
