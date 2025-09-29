@@ -11,7 +11,7 @@ The Wikipedia Research Agent is a toy LLM backed agent that performs research on
 
 To run this gemini with Ollama (which does not work terribly well, but is free), you must have ollama running locally with the `llama3.2` model installed.
 
-> [!INFO]
+> [!TIP]
 > You can you a different Ollama model, but note that not all models support tool calling.
 
 To run ollama locally, run:
