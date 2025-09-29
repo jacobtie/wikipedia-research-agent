@@ -7,14 +7,18 @@ The Wikipedia Research Agent is a toy LLM backed agent that performs research on
 
 ## Setup
 
+### Golang
+
+Please use the latest version of [Golang](https://go.dev/).
+
 ### Ollama
 
-To run this gemini with Ollama (which does not work terribly well, but is free), you must have ollama running locally with the `llama3.2` model installed.
+To run this Gemini with Ollama (which does not work terribly well, but is free), you must have Ollama running locally with the `llama3.2` model installed.
 
 > [!TIP]
 > You can you a different Ollama model, but note that not all models support tool calling.
 
-To run ollama locally, run:
+To run Ollama locally, ensure you have Docker installed, then run:
 
 ```bash
 docker compose -f docker-compose.dev.yml up
@@ -40,7 +44,7 @@ Put your prompt into the `input/` directory in a `.txt` file. If you do not spec
 
 This repository provides a `Makefile` to aid in running the agent.
 
-To run the agent with ollama, run:
+To run the agent with Ollama, run:
 
 ```bash
 make run-ollama file=input-file-here.txt
@@ -72,3 +76,13 @@ The research tool is itself an LLM workflow. The idea is that using each Wikiped
 ### Output Tool
 
 The output tool is very simple, it simply outputs the results of the research into an output file with the UNIX timestamp in the `output` directory. Note that this tool is not a very realistic tool and instead is used in this toy as an example of a tool that impacts the environment. In a real, production ready system, the agent would likely respond with the raw text and then the caller of the agent would do something with that text, such as write it to an output file
+
+## Next Steps
+
+This agent is certainly not production ready. To be production ready, I recommend the following next steps:
+
+1. Prompt Engineering -- I did not spend a lot of times on the prompts and instead focused on the agentic setup for this toy
+2. Output Struct -- the output today is a channel of strings, but it should be more structure to allow better handling from the caller
+3. Error Handling -- the agent today, especially when using Gemini, will sometimes fail to run and therefore needs better error handling, ex. retry logic
+4. Testing -- no production system should exist without comprehensive testing
+5. Observability -- the logs are very basic today and there are no traces implemented
